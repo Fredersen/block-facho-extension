@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "homepage_url": "https://github.com/Fredersen/block-facho-extension",
   "description": "Bloque automatiquement sur X les comptes de la liste onbloquelextremedroite.fun, à un rythme modéré.",
-  "permissions": ["storage", "alarms", "tabs", "scripting"],
+  "permissions": ["storage", "alarms", "scripting"],
   "host_permissions": [
     "https://x.com/*",
     "https://onbloquelextremedroite.fun/*"

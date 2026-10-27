@@ -57,7 +57,7 @@ Les règles de X encadrent l'automatisation. Même à un rythme lent, X peut res
 
 **Objectif unique** (Single purpose) :
 ```
-Bloquer automatiquement sur X, à un rythme modéré, les comptes d'une liste publique (onbloquelextremedroite.fun) choisie par l'utilisateur.
+Bloquer automatiquement sur X (Twitter), à la demande de l'utilisateur et à un rythme modéré, les comptes de la liste publique et vérifiée du site onbloquelextremedroite.fun. L'utilisateur lance et met en pause les blocages depuis le popup, et règle une limite quotidienne.
 ```
 
 **Justification des autorisations** :
@@ -66,10 +66,8 @@ Bloquer automatiquement sur X, à un rythme modéré, les comptes d'une liste pu
 |---|---|
 | `storage` | Enregistrer localement la liste des comptes, le résultat pour chaque compte, le compteur du jour et la limite quotidienne choisie. |
 | `alarms` | Espacer les blocages de 30 à 100 secondes et reprendre automatiquement le lendemain quand la limite quotidienne est atteinte. |
-| `tabs` | Ouvrir un onglet en arrière-plan sur le profil X à bloquer, savoir quand la page a fini de charger, puis le fermer à la fin. |
-| `scripting` | Exécuter sur la page du profil X le script qui clique sur « Bloquer » puis sur « Confirmer ». |
-| Accès à `https://x.com/*` | Ouvrir les profils et effectuer le blocage avec la session X de l'utilisateur. |
-| Accès à `https://onbloquelextremedroite.fun/*` | Télécharger la liste publique des comptes à bloquer. |
+| `scripting` | Exécuter, uniquement sur la page du profil X à bloquer, le script inclus dans l'extension qui clique sur « Bloquer » puis sur « Confirmer », comme le ferait l'utilisateur. |
+| Accès à l'hôte | `https://x.com/*` : ouvrir dans un onglet en arrière-plan le profil X de chaque compte de la liste et y exécuter le script de blocage, avec la session X déjà ouverte de l'utilisateur. `https://onbloquelextremedroite.fun/*` : télécharger la liste publique des comptes à bloquer. Aucun autre site n'est concerné et aucune donnée n'est envoyée. |
 
 **Code distant** (Remote code) : **Non**, je n'utilise pas de code distant.
 La liste téléchargée est lue comme du texte, et les données en sont extraites avec `JSON.parse` : elle n'est jamais exécutée.
