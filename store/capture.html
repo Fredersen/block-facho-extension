@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Capture Web Store</title>
+  <style>
+    :root { --bg: #f6f3ee; --ink: #16130f; --muted: #6e665e; --accent: #d92b3a; --frame: #ffffff; --line: #e6dfd5; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #121010; --ink: #f3eee8; --muted: #a39a91; --accent: #ff4d5a; --frame: #1c1918; --line: #2e2927; }
+    }
+    html, body { margin: 0; width: 1280px; height: 800px; overflow: hidden; }
+    body { display: grid; grid-template-columns: 1fr 420px; align-items: center; gap: 40px; padding: 0 90px 0 110px;
+      box-sizing: border-box; background: var(--bg); color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    .logo { display: flex; align-items: center; gap: 16px; margin-bottom: 36px; }
+    .logo svg { width: 64px; height: 64px; }
+    .logo b { font: 700 40px/1 'Avenir Next Condensed', 'Bahnschrift', 'Arial Narrow', sans-serif; }
+    .logo b span { color: var(--accent); }
+    h1 { font: 700 58px/1.02 'Avenir Next Condensed', 'Bahnschrift', 'Arial Narrow', sans-serif; letter-spacing: -.02em; margin: 0 0 26px; }
+    h1 em { font-style: normal; color: var(--accent); }
+    ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; font-size: 21px; color: var(--muted); }
+    li::before { content: ''; display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--accent);
+      margin-right: 14px; vertical-align: middle; }
+    .popup { width: 360px; height: 742px; justify-self: end; border-radius: 18px; overflow: hidden; background: var(--frame);
+      border: 1px solid var(--line); box-shadow: 0 30px 80px rgba(0, 0, 0, .18), 0 4px 14px rgba(0, 0, 0, .08); }
+    iframe { width: 360px; height: 742px; border: 0; display: block; }
+  </style>
+</head>
+<body>
+  <div>
+    <div class="logo">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="16" fill="#d92b3a"/>
+        <path fill="#fff" d="M16 50V24h6v5h5v-5h10v5h5v-5h6v26H38V40a6 6 0 0 0-12 0v10z"/>
+        <path fill="#fff" opacity=".55" d="M16 18l6-4 4 5-5 3zM42 14l6 3-2 6-5-4z"/>
+      </svg>
+      <b>Block<span>facho</span></b>
+    </div>
+    <h1>Un clic, et la citadelle<br><em>tombe pierre par pierre.</em></h1>
+    <ul>
+      <li>Bloque sur X les comptes de la liste vérifiée</li>
+      <li>Rythme lent et aléatoire, limite quotidienne</li>
+      <li>Aucune donnée collectée, code ouvert</li>
+    </ul>
+  </div>
+  <div class="popup"><iframe src="../popup.html?capture" title="Popup de l'extension"></iframe></div>
+</body>
+</html>

@@ -1,5 +1,8 @@
 const DEFAULT_SETTINGS = { dailyLimit: 20 };
 const el = (id) => document.getElementById(id);
+// `?capture` : rendu figé, sans animations, pour les captures d'écran de la fiche du Web Store.
+const CAPTURE = location.search.includes('capture');
+if (CAPTURE) document.documentElement.classList.add('capture');
 const today = () => new Date().toLocaleDateString('sv');
 
 const CITATIONS = [
@@ -87,12 +90,14 @@ let citationCourante = Math.floor(Math.random() * CITATIONS.length);
 function afficherCitation() {
   const [texte, source] = CITATIONS[citationCourante];
   const bloc = el('citation');
-  bloc.style.opacity = 0;
-  setTimeout(() => {
+  const montrer = () => {
     el('citation-texte').textContent = texte;
     el('citation-source').textContent = source;
     bloc.style.opacity = 1;
-  }, 300);
+  };
+  if (CAPTURE) return montrer();
+  bloc.style.opacity = 0;
+  setTimeout(montrer, 300);
 }
 function citationSuivante() {
   citationCourante = (citationCourante + 1) % CITATIONS.length;
@@ -159,7 +164,9 @@ async function render() {
 
 // Hors de Chrome (ouverture directe du fichier), on simule l'extension pour voir le rendu.
 function storeDeDemo() {
-  document.body.insertAdjacentHTML('afterbegin', '<div class="apercu">Aperçu hors extension · données fictives</div>');
+  if (!CAPTURE) {
+    document.body.insertAdjacentHTML('afterbegin', '<div class="apercu">Aperçu hors extension · données fictives</div>');
+  }
   const accounts = Array.from({ length: 177 }, (_, i) => ({ handle: `compte${i}` }));
   const results = {};
   for (let i = 0; i < 60; i++) {

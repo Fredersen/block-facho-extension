@@ -40,6 +40,7 @@ Chaque compte bloqué fait tomber une pierre de la citadelle. Objectif : l'abatt
 - Tout le reste se passe **dans ton navigateur** : aucune donnée n'est envoyée ailleurs,
   ni sur un serveur, ni au site de la liste.
 - La progression est enregistrée localement dans Chrome.
+- Détails : [politique de confidentialité](PRIVACY.md).
 
 | Fichier | Rôle |
 |---|---|
