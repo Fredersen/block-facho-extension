@@ -3,30 +3,21 @@ const el = (id) => document.getElementById(id);
 const today = () => new Date().toLocaleDateString('sv');
 
 const CITATIONS = [
-  ["La République, c'est moi !", 'J.-L. M., 2018'],
-  ['Ma personne est sacrée !', 'J.-L. M., 2018'],
-  ["Qu'ils s'en aillent tous !", 'J.-L. M., 2010'],
-  ['Il ne faut pas donner une seule voix à Mme Le Pen ! (×4)', 'J.-L. M., soir du 1er tour 2022'],
-  ["Je demande aux Français de m'élire Premier ministre.", 'J.-L. M., 2022'],
-  ['Le programme, rien que le programme, mais tout le programme.', 'J.-L. M., 2024'],
-  ['Prenez le pouvoir !', 'J.-L. M., campagne 2012'],
-  ["L'Avenir en commun.", 'Programme de J.-L. M., 2017'],
-  ['Puissants de la Terre, nous voici.', 'J.-L. M., marche pour la VIe République, 2017'],
-  ['Quel que soit le problème, la solution est le peuple !', 'J.-L. M., marche pour la VIe République, 2017'],
-  ['Nous sommes la révolution citoyenne toujours recommencée.', 'J.-L. M., marche pour la VIe République, 2017'],
-  ["Le problème, c'est le banquier !", 'J.-L. M., Tourcoing, 2017'],
-  ['On ne prépare pas la paix en préparant la guerre !', 'J.-L. M., Marseille, 2017'],
-  ['Mettons de la raison et de la poésie et le monde ira mieux !', 'J.-L. M., De la vertu, 2017'],
-  ['Le peuple existe quand il se met en réseau.', "J.-L. M., L'Ère du peuple"],  ['La tortue avance lentement, mais elle avance. Et elle bloque.', 'Sagesse de la tortue'],
-  ['Pierre après pierre, la citadelle tombera.', 'Blockfacho'],
-  ['Hologramme activé : je bloque depuis plusieurs villes à la fois.', 'Blockfacho'],
-  ['Le bruit et la fureur dans la rue, le silence dans ton fil.', 'Blockfacho'],
-];
-const CRIS_DE_VICTOIRE = [
-  ['BOUM ! Une pierre de moins.', 'La citadelle tremble'],
-  ['Encore un créneau qui saute !', 'Blockfacho'],
-  ['Résistance ! Un de plus dans le fossé.', 'Blockfacho'],
-  ["Et un ! Qu'ils s'en aillent tous !", 'La tortue, très en forme'],
+  ["La République, c'est moi !", 'Jean-Luc Mélenchon, 2018'],
+  ['Ma personne est sacrée !', 'Jean-Luc Mélenchon, 2018'],
+  ["Qu'ils s'en aillent tous !", 'Jean-Luc Mélenchon, 2010'],
+  ['Il ne faut pas donner une seule voix à Mme Le Pen !', 'Jean-Luc Mélenchon, 1er tour 2022'],
+  ["Je demande aux Français de m'élire Premier ministre.", 'Jean-Luc Mélenchon, 2022'],
+  ['Le programme, rien que le programme, mais tout le programme.', 'Jean-Luc Mélenchon, 2024'],
+  ['Prenez le pouvoir !', 'Jean-Luc Mélenchon, campagne 2012'],
+  ["L'Avenir en commun.", 'Programme de Jean-Luc Mélenchon, 2017'],
+  ['Puissants de la Terre, nous voici.', 'Jean-Luc Mélenchon, marche pour la VIe République, 2017'],
+  ['Quel que soit le problème, la solution est le peuple !', 'Jean-Luc Mélenchon, 2017'],
+  ['Nous sommes la révolution citoyenne toujours recommencée.', 'Jean-Luc Mélenchon, 2017'],
+  ["Le problème, c'est le banquier !", 'Jean-Luc Mélenchon, Tourcoing, 2017'],
+  ['On ne prépare pas la paix en préparant la guerre !', 'Jean-Luc Mélenchon, Marseille, 2017'],
+  ['Mettons de la raison et de la poésie et le monde ira mieux !', 'Jean-Luc Mélenchon, De la vertu, 2017'],
+  ['Le peuple existe quand il se met en réseau.', "Jean-Luc Mélenchon, L'Ère du peuple"],
 ];
 
 // Plan de la citadelle : X = une pierre. Elle tombe au fil des comptes traités.
@@ -43,29 +34,33 @@ const PLAN = [
   'XXXXXXXXXX...XXXXXXXXXX',
   'XXXXXXXXXX...XXXXXXXXXX',
 ];
-const TEINTES = ['#7a6c63', '#6f625a', '#83756b', '#655950'];
+const SOL = 92; // ligne d'horizon dans le viewBox (300 × 110)
 const briques = [];
+
+function svgEl(nom, attributs) {
+  const e = document.createElementNS('http://www.w3.org/2000/svg', nom);
+  for (const [k, v] of Object.entries(attributs)) e.setAttribute(k, v);
+  return e;
+}
 
 function construireCitadelle() {
   const svg = el('citadelle');
-  const ns = 'http://www.w3.org/2000/svg';
-  const W = 12, H = 7;
+  const W = 11, H = 7;
   const x0 = (300 - PLAN[0].length * W) / 2;
-  const y0 = 91 - PLAN.length * H; // 91 = ligne d'horizon du décor (70 % de 130)
+  const y0 = SOL - PLAN.length * H;
   let graine = 42; // aléatoire reproductible : la citadelle s'écroule toujours pareil
   const hasard = () => (graine = (graine * 16807) % 2147483647) / 2147483647;
 
-  const soleil = document.createElementNS(ns, 'circle');
-  Object.entries({ cx: 255, cy: 28, r: 15, fill: '#fff3c4' }).forEach(([k, v]) => soleil.setAttribute(k, v));
-  svg.append(soleil);
+  // Les variables CSS ne marchent que dans `style`, pas dans l'attribut `fill`.
+  svg.append(svgEl('circle', { cx: 248, cy: 30, r: 14, style: 'fill: var(--sun)' }));
+  svg.append(svgEl('rect', { x: 0, y: SOL, width: 300, height: 110 - SOL, style: 'fill: var(--ground)' }));
 
   PLAN.forEach((ligne, r) => [...ligne].forEach((c, col) => {
     if (c !== 'X') return;
-    const rect = document.createElementNS(ns, 'rect');
-    Object.entries({ x: x0 + col * W, y: y0 + r * H, width: W, height: H, rx: 1 })
-      .forEach(([k, v]) => rect.setAttribute(k, v));
-    rect.setAttribute('class', 'brique');
-    rect.setAttribute('fill', TEINTES[Math.floor(hasard() * TEINTES.length)]);
+    const rect = svgEl('rect', {
+      x: x0 + col * W + 0.5, y: y0 + r * H + 0.5, width: W - 1, height: H - 1, rx: 1,
+      class: 'brique', 'fill-opacity': (0.78 + hasard() * 0.22).toFixed(2),
+    });
     rect.style.setProperty('--dx', `${(hasard() - 0.5) * 50}px`);
     rect.style.setProperty('--rot', `${(hasard() - 0.5) * 160}deg`);
     svg.append(rect);
@@ -88,23 +83,20 @@ function afficherCitadelle(nbTombees) {
   });
 }
 
-function afficherCitation([texte, source]) {
-  const bulle = el('bulle');
-  bulle.style.opacity = 0;
+let citationCourante = Math.floor(Math.random() * CITATIONS.length);
+function afficherCitation() {
+  const [texte, source] = CITATIONS[citationCourante];
+  const bloc = el('citation');
+  bloc.style.opacity = 0;
   setTimeout(() => {
-    const auteur = document.createElement('small');
-    auteur.textContent = `— ${source}`;
-    bulle.replaceChildren(texte, auteur);
-    bulle.style.opacity = 1;
+    el('citation-texte').textContent = texte;
+    el('citation-source').textContent = source;
+    bloc.style.opacity = 1;
   }, 300);
 }
-
-let citationCourante = 0;
-let dernierBoum = 0;
 function citationSuivante() {
-  if (Date.now() - dernierBoum < 6000) return;
   citationCourante = (citationCourante + 1) % CITATIONS.length;
-  afficherCitation(CITATIONS[citationCourante]);
+  afficherCitation();
 }
 
 function rejouer(element, classe) {
@@ -113,11 +105,11 @@ function rejouer(element, classe) {
   element.classList.add(classe);
 }
 
-function boum() {
-  dernierBoum = Date.now();
-  rejouer(el('scene'), 'secousse');
-  rejouer(el('boum'), 'actif');
-  afficherCitation(CRIS_DE_VICTOIRE[Math.floor(Math.random() * CRIS_DE_VICTOIRE.length)]);
+function etatPastille(s, fini) {
+  if (fini) return ['fini', 'Terminé'];
+  if (!s.running) return ['', s.status.startsWith('En pause') ? 'En pause' : 'Prêt'];
+  if (s.status.startsWith('Limite')) return ['', 'Reprise demain'];
+  return ['actif', 'En cours'];
 }
 
 let blocagesPrecedents = null;
@@ -129,36 +121,49 @@ async function render() {
   const counts = { blocked: 0, already: 0, notfound: 0, error: 0 };
   for (const r of Object.values(s.results)) counts[r.outcome] += 1;
   const total = s.accounts.length;
+  const traites = counts.blocked + counts.already + counts.notfound;
+  const progres = total ? Math.min(1, traites / total) : 0;
+  const fini = total > 0 && progres >= 1;
   const todayCount = s.daily.date === today() ? s.daily.count : 0;
+  const limite = s.settings.dailyLimit;
+
+  for (const k of Object.keys(counts)) el(k).textContent = counts[k];
+  el('total').textContent = total || '–';
+  el('traites').textContent = traites;
+  el('pourcent').textContent = `${Math.floor(progres * 100)} %`;
+  el('barre').style.width = `${progres * 100}%`;
+  el('today').textContent = todayCount;
+  el('limite-texte').textContent = limite;
+  el('barre-jour').style.width = `${Math.min(1, todayCount / limite) * 100}%`;
+  if (document.activeElement !== el('limit')) el('limit').value = limite;
 
   el('status').textContent = s.status;
-  el('total').textContent = total || '–';
-  for (const k of Object.keys(counts)) el(k).textContent = counts[k];
-  el('today').textContent = `${todayCount}/${s.settings.dailyLimit}`;
-  if (document.activeElement !== el('limit')) el('limit').value = s.settings.dailyLimit;
+  const [classe, texte] = etatPastille(s, fini);
+  el('pill').className = `pill ${classe}`;
+  el('pill-texte').textContent = texte;
   el('start').disabled = s.running;
+  el('start').textContent = traites > 0 && !fini ? "Reprendre l'assaut" : "Lancer l'assaut";
   el('stop').disabled = !s.running;
+  el('retry').hidden = counts.error === 0;
 
-  const progres = total ? Math.min(1, (counts.blocked + counts.already + counts.notfound) / total) : 0;
-  const nbTombees = Math.round(progres * briques.length);
-  afficherCitadelle(nbTombees);
-  el('pierres').textContent = `${nbTombees} pierre${nbTombees > 1 ? 's' : ''} tombée${nbTombees > 1 ? 's' : ''} sur ${briques.length}`;
-  el('pourcent').textContent = `${Math.floor(progres * 100)} %`;
-  el('tortue').style.left = `${4 + progres * 86}%`;
-  el('scene').classList.toggle('finie', total > 0 && progres >= 1);
+  afficherCitadelle(Math.round(progres * briques.length));
+  el('scene').classList.toggle('finie', fini);
 
-  if (blocagesPrecedents !== null && counts.blocked > blocagesPrecedents) boum();
+  if (blocagesPrecedents !== null && counts.blocked > blocagesPrecedents) {
+    rejouer(el('scene'), 'secousse');
+    rejouer(el('boum'), 'actif');
+  }
   blocagesPrecedents = counts.blocked;
   premierRendu = false;
 }
 
 // Hors de Chrome (ouverture directe du fichier), on simule l'extension pour voir le rendu.
 function storeDeDemo() {
-  document.body.insertAdjacentHTML('afterbegin', '<div class="apercu">Aperçu hors extension : données fictives</div>');
+  document.body.insertAdjacentHTML('afterbegin', '<div class="apercu">Aperçu hors extension · données fictives</div>');
   const accounts = Array.from({ length: 177 }, (_, i) => ({ handle: `compte${i}` }));
   const results = {};
   for (let i = 0; i < 60; i++) {
-    results[`compte${i}`] = { outcome: i % 9 === 0 ? 'already' : i % 23 === 0 ? 'notfound' : 'blocked' };
+    results[`compte${i}`] = { outcome: i % 9 === 0 ? 'already' : i % 23 === 0 ? 'notfound' : i === 31 ? 'error' : 'blocked' };
   }
   const data = { running: false, status: 'Prêt.', accounts, results, daily: { date: today(), count: 7 }, settings: DEFAULT_SETTINGS };
   let ecouteur = () => {};
@@ -171,7 +176,7 @@ function storeDeDemo() {
     onChange: (f) => { ecouteur = f; },
     send: async (type) => {
       if (type === 'start') {
-        set({ running: true, status: "À l'assaut !" });
+        set({ running: true, status: 'Récupération de la liste…' });
         minuteur = setInterval(() => {
           if (i >= accounts.length) {
             clearInterval(minuteur);
@@ -179,7 +184,7 @@ function storeDeDemo() {
           }
           data.results[`compte${i}`] = { outcome: 'blocked' };
           data.daily.count += 1;
-          set({ status: `@compte${i++} : bloqué.` });
+          set({ status: `@compte${i++} : bloqué. Prochain compte dans moins de 2 minutes…` });
         }, 1500);
       }
       if (type === 'stop') {
@@ -207,7 +212,7 @@ el('limit').onchange = async () => {
 };
 
 construireCitadelle();
-afficherCitation(CITATIONS[0]);
-setInterval(citationSuivante, 7000);
+afficherCitation();
+setInterval(citationSuivante, 8000);
 store.onChange(render);
 render();

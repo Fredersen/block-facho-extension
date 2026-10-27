@@ -45,7 +45,8 @@ Chaque compte bloqué fait tomber une pierre de la citadelle. Objectif : l'abatt
 |---|---|
 | `manifest.json` | Déclaration de l'extension et de ses permissions |
 | `background.js` | Le moteur : récupère la liste, ouvre les profils, bloque, gère le rythme |
-| `popup.html` / `popup.js` | L'interface : citadelle, citations, statistiques |
+| `popup.html` / `popup.js` | L'interface : citadelle, citations, statistiques (mode clair et sombre) |
+| `icons/` | Icône de l'extension (source `icon.svg` et PNG 16, 48, 128 px) |
 
 Astuce : ouvrir `popup.html` directement dans un navigateur affiche un aperçu avec des données
 fictives, pratique pour retoucher le design.

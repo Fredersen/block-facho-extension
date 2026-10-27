@@ -2,120 +2,213 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
+  <meta name="color-scheme" content="light dark">
   <title>Blockfacho auto</title>
   <style>
     :root {
-      --rouge: #d7263d;
-      --rouge-fonce: #8f1022;
-      --creme: #fff4e3;
-      --encre: #1d1311;
-      --pierre: #6f625a;
-      --gris: #6d625d;
+      --bg: #f6f3ee;
+      --surface: #ffffff;
+      --ink: #16130f;
+      --muted: #6e665e;
+      --line: #e6dfd5;
+      --accent: #d92b3a;
+      --accent-hover: #c01f2e;
+      --accent-soft: #fbe4e6;
+      --on-accent: #ffffff;
+      --ok: #1f8a5b;
+      --stone: #3a332d;
+      --sky-top: #fbf1e7;
+      --sky-bottom: #f3d8c2;
+      --sun: #fff6df;
+      --ground: #e4d8c6;
+      --shadow: 0 1px 2px rgba(22, 19, 15, .06), 0 4px 16px rgba(22, 19, 15, .06);
+
+      --display: 'Avenir Next Condensed', 'Bahnschrift', 'Roboto Condensed', 'Arial Narrow', sans-serif;
+      --text: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      --serif: 'Iowan Old Style', 'Charter', 'Georgia', serif;
     }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121010;
+        --surface: #1c1918;
+        --ink: #f3eee8;
+        --muted: #a39a91;
+        --line: #2e2927;
+        --accent: #ff4d5a;
+        --accent-hover: #ff6873;
+        --accent-soft: #3a1a1d;
+        --on-accent: #1a0d0e;
+        --ok: #4cc38a;
+        --stone: #cfc5ba;
+        --sky-top: #1f1a19;
+        --sky-bottom: #2f2420;
+        --sun: #4a3a2c;
+        --ground: #2a2321;
+        --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 4px 16px rgba(0, 0, 0, .3);
+      }
+    }
+
     * { box-sizing: border-box; }
     body {
-      width: 340px; margin: 0; color: var(--encre); background: var(--creme);
-      font: 13px/1.4 system-ui, -apple-system, sans-serif;
+      width: 360px; margin: 0; background: var(--bg); color: var(--ink);
+      font: 13px/1.45 var(--text); -webkit-font-smoothing: antialiased;
+      font-variant-numeric: tabular-nums;
     }
-    .meme { font-family: Impact, 'Anton', 'Arial Black', sans-serif; text-transform: uppercase; letter-spacing: .5px;
-      color: #fff; -webkit-text-stroke: 1px #000; paint-order: stroke fill; text-shadow: 2px 2px 0 #000; }
+    .apercu { background: var(--accent-soft); color: var(--accent); text-align: center;
+      font-size: 11px; font-weight: 600; padding: 4px; letter-spacing: .02em; }
 
-    header { background: linear-gradient(135deg, var(--rouge), var(--rouge-fonce)); padding: 12px 14px 10px; position: relative; overflow: hidden; }
-    header h1 { margin: 0; font-size: 30px; line-height: 1; }
-    header p { margin: 4px 0 0; font-size: 13px; }
-    header .tortue { position: absolute; right: 10px; top: 6px; font-size: 40px; transform: scaleX(-1) rotate(-8deg); filter: drop-shadow(2px 2px 0 #000); }
+    /* En-tête */
+    .top { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 12px; }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand svg { width: 34px; height: 34px; flex: none; }
+    .wordmark { font: 700 21px/1 var(--display); letter-spacing: -.01em; }
+    .wordmark span { color: var(--accent); }
+    .tagline { color: var(--muted); font-size: 11.5px; margin-top: 2px; }
+    .pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px;
+      background: var(--surface); border: 1px solid var(--line); font-size: 11.5px; font-weight: 600; color: var(--muted); }
+    .pill i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+    .pill.actif { color: var(--ok); }
+    .pill.actif i { background: var(--ok); animation: pouls 1.6s infinite; }
+    .pill.fini { color: var(--accent); }
+    .pill.fini i { background: var(--accent); }
+    @keyframes pouls { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ok) 50%, transparent); } 100% { box-shadow: 0 0 0 6px transparent; } }
 
-    main { padding: 12px 14px 14px; }
+    main { padding: 0 16px 16px; display: grid; gap: 12px; }
+    .carte { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); }
 
-    .bulle { position: relative; background: #fff; border: 2px solid var(--encre); border-radius: 12px;
-      padding: 8px 10px; font-weight: 700; font-style: italic; min-height: 3.2em; margin-bottom: 12px;
-      box-shadow: 3px 3px 0 var(--encre); transition: opacity .3s; }
-    .bulle::after { content: ''; position: absolute; left: 22px; bottom: -10px; width: 14px; height: 14px; background: #fff;
-      border-right: 2px solid var(--encre); border-bottom: 2px solid var(--encre); transform: rotate(45deg); }
-    .bulle small { display: block; font-style: normal; font-weight: 600; color: var(--gris); margin-top: 2px; }
-
-    .scene { position: relative; border: 2px solid var(--encre); border-radius: 10px; overflow: hidden;
-      background: linear-gradient(#ffd9a8, #ffb37a 70%, #7a9a4a 70%); box-shadow: 3px 3px 0 var(--encre); }
+    /* Citadelle */
+    .hero { overflow: hidden; }
+    .scene { position: relative; background: linear-gradient(var(--sky-top), var(--sky-bottom)); }
     .scene svg { display: block; width: 100%; height: auto; }
-    .scene.secousse svg { animation: secousse .4s; }
-    @keyframes secousse { 20%, 60% { transform: translateX(-3px); } 40%, 80% { transform: translateX(3px); } }
-    .brique { stroke: #3a302a; stroke-width: .7; }
-    .brique.tombe { animation: tombe 1.3s ease-in forwards; transform-box: fill-box; transform-origin: center; }
+    .scene.secousse svg { animation: secousse .35s; }
+    @keyframes secousse { 25% { transform: translateX(-2px); } 75% { transform: translateX(2px); } }
+    .brique { fill: var(--stone); }
+    .brique.tombe { animation: tombe 1.2s cubic-bezier(.5, 0, .9, .6) forwards; transform-box: fill-box; transform-origin: center; }
     .brique.partie { opacity: 0; }
-    @keyframes tombe { to { transform: translate(var(--dx), 110px) rotate(var(--rot)); opacity: 0; } }
-    .boum { position: absolute; left: 50%; top: 40%; transform: translate(-50%, -50%) scale(0); font-size: 34px;
-      pointer-events: none; }
-    .boum.actif { animation: boum .9s ease-out; }
-    @keyframes boum { 30% { transform: translate(-50%, -50%) scale(1.15) rotate(-6deg); } 70% { transform: translate(-50%, -50%) scale(1) rotate(-6deg); opacity: 1; } 100% { transform: translate(-50%, -60%) scale(1); opacity: 0; } }
-    .victoire { position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
-      text-align: center; font-size: 24px; line-height: 1.1; background: rgba(215, 38, 61, .55); }
+    @keyframes tombe { to { transform: translate(var(--dx), 100px) rotate(var(--rot)); opacity: 0; } }
+    .plus { position: absolute; left: 50%; top: 38%; transform: translate(-50%, 0); opacity: 0; pointer-events: none;
+      background: var(--accent); color: var(--on-accent); font: 700 13px/1 var(--text); padding: 6px 10px; border-radius: 999px;
+      box-shadow: var(--shadow); white-space: nowrap; }
+    .plus.actif { animation: plus 1.4s ease-out; }
+    @keyframes plus { 0% { opacity: 0; transform: translate(-50%, 8px); } 15%, 70% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, -14px); } }
+    .victoire { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center;
+      gap: 4px; text-align: center; background: color-mix(in srgb, var(--surface) 82%, transparent); backdrop-filter: blur(2px); }
+    .victoire strong { font: 700 22px/1.1 var(--display); color: var(--accent); }
+    .victoire span { color: var(--muted); font-size: 12px; }
     .scene.finie .victoire { display: flex; }
 
-    .piste { position: relative; height: 26px; margin: 10px 0 4px; border-bottom: 3px dashed var(--pierre); }
-    .piste span { position: absolute; bottom: -4px; font-size: 22px; transform: translateX(-50%) scaleX(-1); transition: left 1s ease; }
-    .piste .but { right: -6px; left: auto; transform: none; }
-    .avancement { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 10px; }
+    .hero-pied { padding: 12px 14px 14px; }
+    .hero-ligne { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
+    .kpi { font: 700 30px/1 var(--display); letter-spacing: -.02em; }
+    .sous { color: var(--muted); font-size: 12px; }
+    .barre { height: 6px; border-radius: 999px; background: var(--line); overflow: hidden; }
+    .barre span { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--accent); transition: width .8s ease; }
+    .barre.fine { height: 4px; }
 
-    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
-    .stat { background: #fff; border: 2px solid var(--encre); border-radius: 8px; padding: 5px 4px; text-align: center; }
-    .stat b { display: block; font-family: Impact, 'Arial Black', sans-serif; font-size: 20px; line-height: 1.1; }
-    .stat span { font-size: 10.5px; color: var(--gris); }
-    .stat.fort { background: var(--rouge); color: #fff; }
-    .stat.fort span { color: #ffe1e1; }
+    /* Citation */
+    .citation { margin: 0; padding: 14px 16px 14px 40px; position: relative; transition: opacity .3s; }
+    .citation::before { content: '“'; position: absolute; left: 12px; top: 4px; font: 700 40px/1 var(--serif); color: var(--accent); }
+    .citation blockquote { margin: 0; font: italic 15px/1.4 var(--serif); min-height: 2.8em; }
+    .citation figcaption { margin-top: 6px; color: var(--muted); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
 
-    #status { background: var(--encre); color: #f6e9d7; border-radius: 8px; padding: 7px 9px; font-size: 12px;
-      min-height: 2.6em; margin-bottom: 10px; }
-    label { display: flex; justify-content: space-between; align-items: center; font-weight: 600; margin-bottom: 10px; }
-    input { width: 64px; padding: 4px 6px; border: 2px solid var(--encre); border-radius: 6px; font: inherit; }
+    /* Statistiques */
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .stat { padding: 10px 6px; text-align: center; }
+    .stat + .stat { border-left: 1px solid var(--line); }
+    .stat b { display: block; font: 700 20px/1.1 var(--display); }
+    .stat span { color: var(--muted); font-size: 10.5px; }
+    .stat.fort b { color: var(--accent); }
 
-    .boutons { display: flex; gap: 8px; }
-    button { flex: 1; padding: 9px 6px; border: 2px solid var(--encre); border-radius: 8px; cursor: pointer;
-      font-size: 17px; box-shadow: 3px 3px 0 var(--encre); transition: transform .1s, box-shadow .1s; }
-    button:active:not(:disabled) { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--encre); }
-    button:disabled { opacity: .45; cursor: default; }
-    #start { background: var(--rouge); }
-    #stop { background: var(--pierre); }
-    #retry { display: block; margin: 10px auto 0; background: none; border: 0; box-shadow: none; padding: 0;
-      font: 600 12px system-ui, sans-serif; color: var(--gris); text-decoration: underline; }
-    .note { color: var(--gris); font-size: 11px; margin: 10px 0 0; }
-    .apercu { background: #ffe066; text-align: center; font-size: 11px; font-weight: 700; padding: 3px; }
+    /* Commandes */
+    .commandes { padding: 14px; display: grid; gap: 10px; }
+    .ligne { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .titre { font-weight: 600; }
+    .limite { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 12px; }
+    .limite input { width: 56px; padding: 5px 7px; border: 1px solid var(--line); border-radius: 8px;
+      background: var(--bg); color: var(--ink); font: 600 13px var(--text); text-align: center; }
+    .limite input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    #status { display: flex; gap: 8px; align-items: flex-start; padding: 8px 10px; border-radius: 8px;
+      background: var(--bg); color: var(--muted); font-size: 12px; min-height: 34px; }
+    #status::before { content: ''; flex: none; width: 6px; height: 6px; margin-top: 6px; border-radius: 50%; background: currentColor; }
+    .actions { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+    .btn { height: 38px; padding: 0 16px; border-radius: 10px; border: 1px solid transparent; cursor: pointer;
+      font: 600 13.5px var(--text); transition: background .15s, transform .1s; }
+    .btn:active:not(:disabled) { transform: scale(.98); }
+    .btn:disabled { opacity: .4; cursor: default; }
+    .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .primaire { background: var(--accent); color: var(--on-accent); }
+    .primaire:hover:not(:disabled) { background: var(--accent-hover); }
+    .secondaire { background: transparent; color: var(--ink); border-color: var(--line); }
+    .secondaire:hover:not(:disabled) { background: var(--bg); }
+    .lien { justify-self: center; background: none; border: 0; padding: 0; color: var(--accent);
+      font: 600 12px var(--text); cursor: pointer; }
+    .lien:hover { text-decoration: underline; }
+
+    .note { color: var(--muted); font-size: 11px; line-height: 1.5; margin: 0; padding: 0 2px; }
   </style>
 </head>
 <body>
-  <header>
-    <h1 class="meme">Blockfacho</h1>
-    <p class="meme">On va abattre la citadelle</p>
-    <div class="tortue" aria-hidden="true">🐢</div>
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="16" fill="#d92b3a"/>
+        <path fill="#fff" d="M16 50V24h6v5h5v-5h10v5h5v-5h6v26H38V40a6 6 0 0 0-12 0v10z"/>
+        <path fill="#fff" opacity=".55" d="M16 18l6-4 4 5-5 3zM42 14l6 3-2 6-5-4z"/>
+      </svg>
+      <div>
+        <div class="wordmark">Block<span>facho</span></div>
+        <div class="tagline">On va abattre la citadelle</div>
+      </div>
+    </div>
+    <span class="pill" id="pill"><i></i><span id="pill-texte">Prêt</span></span>
   </header>
+
   <main>
-    <div class="bulle" id="bulle" aria-live="polite">…</div>
+    <section class="carte hero">
+      <div class="scene" id="scene">
+        <svg id="citadelle" viewBox="0 0 300 110" role="img" aria-label="La citadelle, qui perd une pierre à chaque compte traité"></svg>
+        <div class="plus" id="boum">+1 compte bloqué</div>
+        <div class="victoire"><strong>La citadelle est tombée.</strong><span>Tous les comptes de la liste ont été traités.</span></div>
+      </div>
+      <div class="hero-pied">
+        <div class="hero-ligne">
+          <span class="kpi" id="pourcent">0 %</span>
+          <span class="sous"><b id="traites">0</b> / <b id="total">–</b> comptes traités</span>
+        </div>
+        <div class="barre"><span id="barre"></span></div>
+      </div>
+    </section>
 
-    <div class="scene" id="scene">
-      <svg id="citadelle" viewBox="0 0 300 130" role="img" aria-label="La citadelle, qui perd une pierre à chaque compte bloqué"></svg>
-      <div class="boum meme" id="boum">Boum !</div>
-      <div class="victoire meme">La citadelle<br>est tombée !</div>
-    </div>
+    <figure class="carte citation" id="citation">
+      <blockquote id="citation-texte">…</blockquote>
+      <figcaption id="citation-source"></figcaption>
+    </figure>
 
-    <div class="piste" aria-hidden="true"><span id="tortue" style="left:0%">🐢</span><span class="but">🏰</span></div>
-    <div class="avancement"><span id="pierres">0 pierre tombée</span><span id="pourcent">0 %</span></div>
+    <section class="carte stats" aria-label="Statistiques">
+      <div class="stat fort"><b id="blocked">–</b><span>Bloqués</span></div>
+      <div class="stat"><b id="already">–</b><span>Déjà bloqués</span></div>
+      <div class="stat"><b id="notfound">–</b><span>Introuvables</span></div>
+      <div class="stat"><b id="error">–</b><span>Erreurs</span></div>
+    </section>
 
-    <div class="stats">
-      <div class="stat fort"><b id="blocked">–</b><span>bloqués</span></div>
-      <div class="stat"><b id="already">–</b><span>déjà bloqués</span></div>
-      <div class="stat"><b id="total">–</b><span>dans la liste</span></div>
-      <div class="stat"><b id="today">–</b><span>aujourd'hui</span></div>
-      <div class="stat"><b id="notfound">–</b><span>introuvables</span></div>
-      <div class="stat"><b id="error">–</b><span>erreurs</span></div>
-    </div>
+    <section class="carte commandes">
+      <div class="ligne">
+        <div>
+          <div class="titre">Aujourd'hui</div>
+          <div class="sous"><b id="today">0</b> blocage(s) sur <span id="limite-texte">20</span></div>
+        </div>
+        <label class="limite">Limite / jour <input id="limit" type="number" min="1" max="200"></label>
+      </div>
+      <div class="barre fine"><span id="barre-jour"></span></div>
+      <div id="status" role="status">…</div>
+      <div class="actions">
+        <button id="start" class="btn primaire">Lancer l'assaut</button>
+        <button id="stop" class="btn secondaire">Pause</button>
+      </div>
+      <button id="retry" class="lien" hidden>Relancer les comptes en erreur</button>
+    </section>
 
-    <div id="status">…</div>
-    <label>Blocages max par jour <input id="limit" type="number" min="1" max="200"></label>
-    <div class="boutons">
-      <button id="start" class="meme">À l'assaut !</button>
-      <button id="stop" class="meme">Trêve</button>
-    </div>
-    <button id="retry">Relancer les erreurs</button>
-    <p class="note">Reste connecté à X. Un onglet en arrière-plan ouvre chaque profil et clique sur « Bloquer », toutes les 30 à 100 secondes. La tortue est lente, et c'est voulu : X n'aime pas les robots pressés.</p>
+    <p class="note">Reste connecté à X. Un onglet en arrière-plan ouvre chaque profil et clique sur « Bloquer », toutes les 30 à 100 secondes, dans la limite quotidienne. Ce rythme lent limite le risque de restriction par X.</p>
   </main>
   <script src="popup.js"></script>
 </body>
