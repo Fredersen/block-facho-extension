@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Blockfacho auto</title>
+  <style>
+    :root {
+      --rouge: #d7263d;
+      --rouge-fonce: #8f1022;
+      --creme: #fff4e3;
+      --encre: #1d1311;
+      --pierre: #6f625a;
+      --gris: #6d625d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      width: 340px; margin: 0; color: var(--encre); background: var(--creme);
+      font: 13px/1.4 system-ui, -apple-system, sans-serif;
+    }
+    .meme { font-family: Impact, 'Anton', 'Arial Black', sans-serif; text-transform: uppercase; letter-spacing: .5px;
+      color: #fff; -webkit-text-stroke: 1px #000; paint-order: stroke fill; text-shadow: 2px 2px 0 #000; }
+
+    header { background: linear-gradient(135deg, var(--rouge), var(--rouge-fonce)); padding: 12px 14px 10px; position: relative; overflow: hidden; }
+    header h1 { margin: 0; font-size: 30px; line-height: 1; }
+    header p { margin: 4px 0 0; font-size: 13px; }
+    header .tortue { position: absolute; right: 10px; top: 6px; font-size: 40px; transform: scaleX(-1) rotate(-8deg); filter: drop-shadow(2px 2px 0 #000); }
+
+    main { padding: 12px 14px 14px; }
+
+    .bulle { position: relative; background: #fff; border: 2px solid var(--encre); border-radius: 12px;
+      padding: 8px 10px; font-weight: 700; font-style: italic; min-height: 3.2em; margin-bottom: 12px;
+      box-shadow: 3px 3px 0 var(--encre); transition: opacity .3s; }
+    .bulle::after { content: ''; position: absolute; left: 22px; bottom: -10px; width: 14px; height: 14px; background: #fff;
+      border-right: 2px solid var(--encre); border-bottom: 2px solid var(--encre); transform: rotate(45deg); }
+    .bulle small { display: block; font-style: normal; font-weight: 600; color: var(--gris); margin-top: 2px; }
+
+    .scene { position: relative; border: 2px solid var(--encre); border-radius: 10px; overflow: hidden;
+      background: linear-gradient(#ffd9a8, #ffb37a 70%, #7a9a4a 70%); box-shadow: 3px 3px 0 var(--encre); }
+    .scene svg { display: block; width: 100%; height: auto; }
+    .scene.secousse svg { animation: secousse .4s; }
+    @keyframes secousse { 20%, 60% { transform: translateX(-3px); } 40%, 80% { transform: translateX(3px); } }
+    .brique { stroke: #3a302a; stroke-width: .7; }
+    .brique.tombe { animation: tombe 1.3s ease-in forwards; transform-box: fill-box; transform-origin: center; }
+    .brique.partie { opacity: 0; }
+    @keyframes tombe { to { transform: translate(var(--dx), 110px) rotate(var(--rot)); opacity: 0; } }
+    .boum { position: absolute; left: 50%; top: 40%; transform: translate(-50%, -50%) scale(0); font-size: 34px;
+      pointer-events: none; }
+    .boum.actif { animation: boum .9s ease-out; }
+    @keyframes boum { 30% { transform: translate(-50%, -50%) scale(1.15) rotate(-6deg); } 70% { transform: translate(-50%, -50%) scale(1) rotate(-6deg); opacity: 1; } 100% { transform: translate(-50%, -60%) scale(1); opacity: 0; } }
+    .victoire { position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
+      text-align: center; font-size: 24px; line-height: 1.1; background: rgba(215, 38, 61, .55); }
+    .scene.finie .victoire { display: flex; }
+
+    .piste { position: relative; height: 26px; margin: 10px 0 4px; border-bottom: 3px dashed var(--pierre); }
+    .piste span { position: absolute; bottom: -4px; font-size: 22px; transform: translateX(-50%) scaleX(-1); transition: left 1s ease; }
+    .piste .but { right: -6px; left: auto; transform: none; }
+    .avancement { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 10px; }
+
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
+    .stat { background: #fff; border: 2px solid var(--encre); border-radius: 8px; padding: 5px 4px; text-align: center; }
+    .stat b { display: block; font-family: Impact, 'Arial Black', sans-serif; font-size: 20px; line-height: 1.1; }
+    .stat span { font-size: 10.5px; color: var(--gris); }
+    .stat.fort { background: var(--rouge); color: #fff; }
+    .stat.fort span { color: #ffe1e1; }
+
+    #status { background: var(--encre); color: #f6e9d7; border-radius: 8px; padding: 7px 9px; font-size: 12px;
+      min-height: 2.6em; margin-bottom: 10px; }
+    label { display: flex; justify-content: space-between; align-items: center; font-weight: 600; margin-bottom: 10px; }
+    input { width: 64px; padding: 4px 6px; border: 2px solid var(--encre); border-radius: 6px; font: inherit; }
+
+    .boutons { display: flex; gap: 8px; }
+    button { flex: 1; padding: 9px 6px; border: 2px solid var(--encre); border-radius: 8px; cursor: pointer;
+      font-size: 17px; box-shadow: 3px 3px 0 var(--encre); transition: transform .1s, box-shadow .1s; }
+    button:active:not(:disabled) { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--encre); }
+    button:disabled { opacity: .45; cursor: default; }
+    #start { background: var(--rouge); }
+    #stop { background: var(--pierre); }
+    #retry { display: block; margin: 10px auto 0; background: none; border: 0; box-shadow: none; padding: 0;
+      font: 600 12px system-ui, sans-serif; color: var(--gris); text-decoration: underline; }
+    .note { color: var(--gris); font-size: 11px; margin: 10px 0 0; }
+    .apercu { background: #ffe066; text-align: center; font-size: 11px; font-weight: 700; padding: 3px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 class="meme">Blockfacho</h1>
+    <p class="meme">On va abattre la citadelle</p>
+    <div class="tortue" aria-hidden="true">🐢</div>
+  </header>
+  <main>
+    <div class="bulle" id="bulle" aria-live="polite">…</div>
+
+    <div class="scene" id="scene">
+      <svg id="citadelle" viewBox="0 0 300 130" role="img" aria-label="La citadelle, qui perd une pierre à chaque compte bloqué"></svg>
+      <div class="boum meme" id="boum">Boum !</div>
+      <div class="victoire meme">La citadelle<br>est tombée !</div>
+    </div>
+
+    <div class="piste" aria-hidden="true"><span id="tortue" style="left:0%">🐢</span><span class="but">🏰</span></div>
+    <div class="avancement"><span id="pierres">0 pierre tombée</span><span id="pourcent">0 %</span></div>
+
+    <div class="stats">
+      <div class="stat fort"><b id="blocked">–</b><span>bloqués</span></div>
+      <div class="stat"><b id="already">–</b><span>déjà bloqués</span></div>
+      <div class="stat"><b id="total">–</b><span>dans la liste</span></div>
+      <div class="stat"><b id="today">–</b><span>aujourd'hui</span></div>
+      <div class="stat"><b id="notfound">–</b><span>introuvables</span></div>
+      <div class="stat"><b id="error">–</b><span>erreurs</span></div>
+    </div>
+
+    <div id="status">…</div>
+    <label>Blocages max par jour <input id="limit" type="number" min="1" max="200"></label>
+    <div class="boutons">
+      <button id="start" class="meme">À l'assaut !</button>
+      <button id="stop" class="meme">Trêve</button>
+    </div>
+    <button id="retry">Relancer les erreurs</button>
+    <p class="note">Reste connecté à X. Un onglet en arrière-plan ouvre chaque profil et clique sur « Bloquer », toutes les 30 à 100 secondes. La tortue est lente, et c'est voulu : X n'aime pas les robots pressés.</p>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>

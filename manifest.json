@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Blockfacho auto",
+  "version": "0.1.0",
+  "description": "Bloque automatiquement sur X les comptes de la liste onbloquelextremedroite.fun, à un rythme modéré.",
+  "permissions": ["storage", "alarms", "tabs", "scripting"],
+  "host_permissions": [
+    "https://x.com/*",
+    "https://onbloquelextremedroite.fun/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Blockfacho auto"
+  }
+}
