@@ -39,7 +39,7 @@ Respect de ta vie privée
 Les règles de X encadrent l'automatisation. Même à un rythme lent, X peut restreindre temporairement un compte qui bloque beaucoup de profils. Tu utilises l'extension sous ta responsabilité.
 ```
 
-**Icône** : `icons/icon128.png`
+**Icône** : `store/icone-store-128.png` (96 × 96 px utiles + 16 px de marge transparente, comme le demandent les consignes)
 
 **Captures d'écran** (1280 × 800) : `store/capture-clair.png`, `store/capture-sombre.png`
 
