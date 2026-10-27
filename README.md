@@ -55,3 +55,8 @@ fictives, pratique pour retoucher le design.
 
 Télécharge la nouvelle version, remplace les fichiers, puis clique sur **↻ Recharger**
 sur la carte de l'extension dans `chrome://extensions`. Ta progression est conservée.
+
+## Licence
+
+Code sous licence [MIT](LICENSE) : tu peux le réutiliser, le modifier et le redistribuer
+librement, en gardant la mention de licence.
