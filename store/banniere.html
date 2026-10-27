@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Bannière Web Store</title>
+  <style>
+    html, body { margin: 0; width: 1400px; height: 560px; overflow: hidden; }
+    body { display: flex; flex-direction: column; justify-content: center; padding: 0 110px; box-sizing: border-box;
+      background: linear-gradient(135deg, #d92b3a, #a8192a); color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; position: relative; }
+    svg.tour { position: absolute; right: 60px; bottom: -70px; width: 560px; height: 560px; opacity: .14; }
+    .logo { display: flex; align-items: center; gap: 22px; margin-bottom: 30px; }
+    .logo svg { width: 84px; height: 84px; }
+    .logo b { font: 700 64px/1 'Avenir Next Condensed', 'Bahnschrift', 'Arial Narrow', sans-serif; }
+    h1 { margin: 0 0 18px; font: 700 54px/1.05 'Avenir Next Condensed', 'Bahnschrift', 'Arial Narrow', sans-serif; letter-spacing: -.01em; }
+    p { margin: 0; font-size: 24px; opacity: .9; }
+  </style>
+</head>
+<body>
+  <svg class="tour" viewBox="0 0 64 64" aria-hidden="true"><path fill="#fff" d="M16 50V24h6v5h5v-5h10v5h5v-5h6v26H38V40a6 6 0 0 0-12 0v10z"/></svg>
+  <div class="logo">
+    <svg viewBox="0 0 64 64" aria-hidden="true">
+      <rect width="64" height="64" rx="16" fill="#fff"/>
+      <path fill="#d92b3a" d="M16 50V24h6v5h5v-5h10v5h5v-5h6v26H38V40a6 6 0 0 0-12 0v10z"/>
+      <path fill="#d92b3a" opacity=".55" d="M16 18l6-4 4 5-5 3zM42 14l6 3-2 6-5-4z"/>
+    </svg>
+    <b>Blockfacho</b>
+  </div>
+  <h1>On va abattre la citadelle.</h1>
+  <p>Bloque sur X les comptes de la liste vérifiée, un compte à la fois.</p>
+</body>
+</html>

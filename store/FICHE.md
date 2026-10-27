@@ -43,7 +43,9 @@ Les règles de X encadrent l'automatisation. Même à un rythme lent, X peut res
 
 **Captures d'écran** (1280 × 800) : `store/capture-clair.png`, `store/capture-sombre.png`
 
-**Petite vignette promotionnelle** (440 × 280) : `store/vignette-440x280.png`
+**Petite vignette promotionnelle** (440 × 280) : `store/vignette-440x280.png` ou `.jpg`
+
+**Image promotionnelle du haut de page** (1400 × 560, facultative) : `store/banniere-1400x560.png` ou `.jpg`
 
 **Site web** : https://github.com/Fredersen/block-facho-extension
 
