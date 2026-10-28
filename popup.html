@@ -127,6 +127,16 @@
     .limite input { width: 56px; padding: 5px 7px; border: 1px solid var(--line); border-radius: 8px;
       background: var(--bg); color: var(--ink); font: 600 13px var(--text); text-align: center; }
     .limite input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .vitesse-bloc { display: grid; gap: 6px; }
+    .segments { display: grid; grid-template-columns: repeat(3, 1fr); padding: 2px; border: 1px solid var(--line); border-radius: 9px; background: var(--bg); }
+    .segments button { border: 0; background: none; color: var(--muted); font: 600 12px var(--text);
+      padding: 5px 9px; border-radius: 7px; cursor: pointer; transition: background .15s, color .15s; }
+    .segments button:hover { color: var(--ink); }
+    .segments button[aria-checked="true"] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
+    .segments button[data-speed="turbo"][aria-checked="true"] { color: var(--accent); }
+    .segments button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .alerte { margin: 0; padding: 8px 10px; border-radius: 8px; background: var(--accent-soft); color: var(--accent);
+      font-size: 12px; font-weight: 600; line-height: 1.4; }
     #status { display: flex; gap: 8px; align-items: flex-start; padding: 8px 10px; border-radius: 8px;
       background: var(--bg); color: var(--muted); font-size: 12px; min-height: 34px; }
     #status::before { content: ''; flex: none; width: 6px; height: 6px; margin-top: 6px; border-radius: 50%; background: currentColor; }
@@ -201,6 +211,18 @@
         <label class="limite">Limite / jour <input id="limit" type="number" min="1" max="200"></label>
       </div>
       <div class="barre fine"><span id="barre-jour"></span></div>
+      <div class="vitesse-bloc">
+        <div class="ligne">
+          <span class="titre">Cadence</span>
+          <span class="sous" id="vitesse-texte">30 à 100 s entre deux blocages</span>
+        </div>
+        <div class="segments" id="vitesse" role="radiogroup" aria-label="Cadence des blocages">
+          <button role="radio" data-speed="prudent">Prudente</button>
+          <button role="radio" data-speed="rapide">Rapide</button>
+          <button role="radio" data-speed="turbo">Turbo</button>
+        </div>
+      </div>
+      <p class="alerte" id="alerte-vitesse" hidden></p>
       <div id="status" role="status">…</div>
       <div class="actions">
         <button id="start" class="btn primaire">Lancer l'assaut</button>
@@ -209,7 +231,7 @@
       <button id="retry" class="lien" hidden>Relancer les comptes en erreur</button>
     </section>
 
-    <p class="note">Reste connecté à X. Un onglet en arrière-plan ouvre chaque profil et clique sur « Bloquer », toutes les 30 à 100 secondes, dans la limite quotidienne. Ce rythme lent limite le risque de restriction par X.</p>
+    <p class="note">Reste connecté à X. Un onglet en arrière-plan ouvre chaque profil et clique sur « Bloquer », à la cadence choisie et dans la limite quotidienne. Plus le rythme est lent, plus le risque de restriction par X est faible.</p>
   </main>
   <script src="popup.js"></script>
 </body>

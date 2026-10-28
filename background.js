@@ -3,10 +3,15 @@
 // être arrêté à tout moment : tout l'état vit donc dans chrome.storage.local.
 
 const LIST_URL = 'https://onbloquelextremedroite.fun/accounts.js';
-const DEFAULT_SETTINGS = { dailyLimit: 20 };
-// Délai aléatoire entre deux blocages, pour ne pas avoir un rythme de robot.
-const MIN_DELAY_SEC = 30;
-const MAX_DELAY_SEC = 100;
+const DEFAULT_SETTINGS = { dailyLimit: 20, speed: 'prudent' };
+// Délai aléatoire entre deux blocages (en secondes), pour ne pas avoir un rythme de robot.
+// Plus c'est rapide, plus X risque de restreindre le compte.
+const SPEEDS = {
+  prudent: { min: 30, max: 100 },
+  rapide: { min: 15, max: 40 },
+  turbo: { min: 5, max: 15 },
+};
+const speedOf = (settings) => SPEEDS[settings.speed] ?? SPEEDS.prudent;
 const MAX_CONSECUTIVE_ERRORS = 3;
 
 let busy = false;
@@ -40,9 +45,20 @@ async function fetchAccounts() {
     .map((a) => ({ handle: a.handle, name: a.name, category: a.category }));
 }
 
-function scheduleNext(delaySec) {
-  const sec = delaySec ?? MIN_DELAY_SEC + Math.random() * (MAX_DELAY_SEC - MIN_DELAY_SEC);
-  chrome.alarms.create('tick', { delayInMinutes: sec / 60 });
+function randomDelay(settings) {
+  const { min, max } = speedOf(settings);
+  return min + Math.random() * (max - min);
+}
+
+function scheduleNext(sec) {
+  if (sec >= 30) {
+    chrome.alarms.create('tick', { delayInMinutes: sec / 60 });
+    return;
+  }
+  // chrome.alarms ne descend pas sous 30 s : on passe par setTimeout, et l'alarme
+  // à 30 s sert de filet si Chrome a mis le service worker en veille entre-temps.
+  setTimeout(tick, sec * 1000);
+  chrome.alarms.create('tick', { delayInMinutes: 0.5 });
 }
 
 function msUntilTomorrow() {
@@ -139,6 +155,7 @@ async function tick() {
   if (busy) return;
   busy = true;
   try {
+    await chrome.alarms.clear('tick'); // annule le filet de sécurité de scheduleNext
     const state = await getState();
     if (!state.running) return;
     const { settings, results } = state;
@@ -197,12 +214,13 @@ async function tick() {
     // L'utilisateur a pu cliquer sur « Pause » pendant le traitement.
     if (!(await getState()).running) return;
 
+    // Pas besoin d'attendre longtemps si aucun blocage n'a eu lieu.
+    const sec = outcome === 'blocked' || outcome === 'error' ? randomDelay(settings) : speedOf(settings).min;
     const labels = { blocked: 'bloqué', already: 'déjà bloqué', notfound: 'introuvable', error: 'erreur' };
     await chrome.storage.local.set({
-      status: `@${next.handle} : ${labels[outcome]}. Prochain compte dans moins de 2 minutes…`,
+      status: `@${next.handle} : ${labels[outcome]}. Prochain compte dans ${Math.round(sec)} s…`,
     });
-    // Pas besoin d'attendre longtemps si aucun blocage n'a eu lieu.
-    scheduleNext(outcome === 'blocked' || outcome === 'error' ? undefined : MIN_DELAY_SEC);
+    scheduleNext(sec);
   } finally {
     busy = false;
   }

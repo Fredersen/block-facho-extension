@@ -1,4 +1,16 @@
-const DEFAULT_SETTINGS = { dailyLimit: 20 };
+const DEFAULT_SETTINGS = { dailyLimit: 20, speed: 'prudent' };
+// Mêmes plages que SPEEDS dans background.js.
+const VITESSES = {
+  prudent: { texte: '30 à 100 s entre deux blocages', alerte: '' },
+  rapide: {
+    texte: '15 à 40 s entre deux blocages',
+    alerte: 'Cadence rapide : X risque davantage de restreindre ton compte. Garde une limite quotidienne raisonnable.',
+  },
+  turbo: {
+    texte: '5 à 15 s entre deux blocages',
+    alerte: 'Turbo : risque élevé que X restreigne ou bloque temporairement ton compte. À utiliser à tes risques.',
+  },
+};
 const el = (id) => document.getElementById(id);
 // `?capture` : rendu figé, sans animations, pour les captures d'écran de la fiche du Web Store.
 const CAPTURE = location.search.includes('capture');
@@ -142,6 +154,14 @@ async function render() {
   el('barre-jour').style.width = `${Math.min(1, todayCount / limite) * 100}%`;
   if (document.activeElement !== el('limit')) el('limit').value = limite;
 
+  const vitesse = VITESSES[s.settings.speed] ? s.settings.speed : 'prudent';
+  for (const b of el('vitesse').querySelectorAll('button')) {
+    b.setAttribute('aria-checked', String(b.dataset.speed === vitesse));
+  }
+  el('vitesse-texte').textContent = VITESSES[vitesse].texte;
+  el('alerte-vitesse').textContent = VITESSES[vitesse].alerte;
+  el('alerte-vitesse').hidden = !VITESSES[vitesse].alerte;
+
   el('status').textContent = s.status;
   const [classe, texte] = etatPastille(s, fini);
   el('pill').className = `pill ${classe}`;
@@ -212,6 +232,12 @@ const store = globalThis.chrome?.runtime?.id ? {
 el('start').onclick = () => store.send('start');
 el('stop').onclick = () => store.send('stop');
 el('retry').onclick = () => store.send('retryErrors');
+for (const b of el('vitesse').querySelectorAll('button')) {
+  b.onclick = async () => {
+    const { settings } = await store.get({ settings: DEFAULT_SETTINGS });
+    await store.set({ settings: { ...settings, speed: b.dataset.speed } });
+  };
+}
 el('limit').onchange = async () => {
   const { settings } = await store.get({ settings: DEFAULT_SETTINGS });
   const dailyLimit = Math.max(1, Math.min(200, Number(el('limit').value) || settings.dailyLimit));

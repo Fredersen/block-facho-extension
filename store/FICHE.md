@@ -25,8 +25,8 @@ Comment ça marche
 • Un onglet en arrière-plan ouvre chaque profil et clique sur « Bloquer », comme tu le ferais à la main.
 • Chaque compte traité fait tomber une pierre de la citadelle. Objectif : l'abattre.
 
-Un rythme lent, volontairement
-• 30 à 100 secondes, au hasard, entre deux blocages.
+Un rythme maîtrisé
+• Un délai aléatoire entre deux blocages, selon la cadence choisie : Prudente (30 à 100 s, par défaut), Rapide (15 à 40 s) ou Turbo (5 à 15 s).
 • Une limite quotidienne réglable (20 par défaut). Une fois atteinte, l'extension reprend toute seule le lendemain.
 • Arrêt automatique en cas d'erreurs répétées.
 
@@ -65,7 +65,7 @@ Bloquer automatiquement sur X (Twitter), à la demande de l'utilisateur et à un
 | Autorisation | Justification à coller |
 |---|---|
 | `storage` | Enregistrer localement la liste des comptes, le résultat pour chaque compte, le compteur du jour et la limite quotidienne choisie. |
-| `alarms` | Espacer les blocages de 30 à 100 secondes et reprendre automatiquement le lendemain quand la limite quotidienne est atteinte. |
+| `alarms` | Espacer les blocages selon la cadence choisie par l'utilisateur et reprendre automatiquement le lendemain quand la limite quotidienne est atteinte. |
 | `scripting` | Exécuter, uniquement sur la page du profil X à bloquer, le script inclus dans l'extension qui clique sur « Bloquer » puis sur « Confirmer », comme le ferait l'utilisateur. |
 | Accès à l'hôte | `https://x.com/*` : ouvrir dans un onglet en arrière-plan le profil X de chaque compte de la liste et y exécuter le script de blocage, avec la session X déjà ouverte de l'utilisateur. `https://onbloquelextremedroite.fun/*` : télécharger la liste publique des comptes à bloquer. Aucun autre site n'est concerné et aucune donnée n'est envoyée. |
 

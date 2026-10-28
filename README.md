@@ -9,8 +9,9 @@ Chaque compte bloqué fait tomber une pierre de la citadelle. Objectif : l'abatt
 ## ⚠️ À lire avant d'utiliser
 
 - **Les règles de X interdisent l'automatisation.** Bloquer beaucoup de comptes peut entraîner
-  une restriction temporaire de ton compte. L'extension est volontairement lente
-  (30 à 100 secondes entre deux blocages, 20 par jour par défaut), mais le risque n'est pas nul.
+  une restriction temporaire de ton compte. Par défaut, l'extension est volontairement lente
+  (cadence « Prudente » : 30 à 100 secondes entre deux blocages, 20 par jour), mais le risque
+  n'est pas nul, et il augmente avec les cadences « Rapide » et « Turbo ».
   Tu l'utilises sous ta responsabilité.
 - **L'extension clique sur les boutons du site de X.** Si X modifie son site, elle peut cesser
   de fonctionner jusqu'à la prochaine mise à jour.
@@ -27,11 +28,18 @@ Chaque compte bloqué fait tomber une pierre de la citadelle. Objectif : l'abatt
 ## Utilisation
 
 1. Connecte-toi à X dans Chrome.
-2. Ouvre l'extension et clique sur **« À l'assaut ! »**.
+2. Ouvre l'extension et clique sur **« Lancer l'assaut »**.
 3. Un onglet s'ouvre en arrière-plan : il visite chaque profil et clique sur « Bloquer ».
    Tu peux continuer à utiliser Chrome normalement.
-4. **« Trêve »** met en pause. La limite quotidienne se règle dans le popup ;
-   une fois atteinte, l'extension reprend toute seule le lendemain.
+4. **« Pause »** arrête les blocages. Dans le popup, tu règles :
+   - la **limite quotidienne** : une fois atteinte, l'extension reprend toute seule le lendemain ;
+   - la **cadence** :
+
+     | Cadence | Délai entre deux blocages | Risque de restriction par X |
+     |---|---|---|
+     | Prudente (par défaut) | 30 à 100 s | le plus faible |
+     | Rapide | 15 à 40 s | plus élevé |
+     | Turbo | 5 à 15 s | élevé |
 
 ## Fonctionnement et vie privée
 
