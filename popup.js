@@ -240,7 +240,8 @@ for (const b of el('vitesse').querySelectorAll('button')) {
 }
 el('limit').onchange = async () => {
   const { settings } = await store.get({ settings: DEFAULT_SETTINGS });
-  const dailyLimit = Math.max(1, Math.min(200, Number(el('limit').value) || settings.dailyLimit));
+  // Pas de plafond : c'est à l'utilisateur de choisir le risque qu'il prend.
+  const dailyLimit = Math.max(1, Math.round(Number(el('limit').value)) || settings.dailyLimit);
   await store.set({ settings: { ...settings, dailyLimit } });
 };
 

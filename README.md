@@ -32,7 +32,7 @@ Chaque compte bloqué fait tomber une pierre de la citadelle. Objectif : l'abatt
 3. Un onglet s'ouvre en arrière-plan : il visite chaque profil et clique sur « Bloquer ».
    Tu peux continuer à utiliser Chrome normalement.
 4. **« Pause »** arrête les blocages. Dans le popup, tu règles :
-   - la **limite quotidienne** : une fois atteinte, l'extension reprend toute seule le lendemain ;
+   - la **limite quotidienne** (20 par défaut, sans maximum : à toi de choisir le risque) : une fois atteinte, l'extension reprend toute seule le lendemain ;
    - la **cadence** :
 
      | Cadence | Délai entre deux blocages | Risque de restriction par X |

@@ -27,7 +27,7 @@ Comment ça marche
 
 Un rythme maîtrisé
 • Un délai aléatoire entre deux blocages, selon la cadence choisie : Prudente (30 à 100 s, par défaut), Rapide (15 à 40 s) ou Turbo (5 à 15 s).
-• Une limite quotidienne réglable (20 par défaut). Une fois atteinte, l'extension reprend toute seule le lendemain.
+• Une limite quotidienne réglable librement (20 par défaut, sans maximum). Une fois atteinte, l'extension reprend toute seule le lendemain.
 • Arrêt automatique en cas d'erreurs répétées.
 
 Respect de ta vie privée
