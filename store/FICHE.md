@@ -70,7 +70,7 @@ Bloquer automatiquement sur X (Twitter), à la demande de l'utilisateur et à un
 | Accès à l'hôte | `https://x.com/*` : ouvrir dans un onglet en arrière-plan le profil X de chaque compte de la liste et y exécuter le script de blocage, avec la session X déjà ouverte de l'utilisateur. `https://onbloquelextremedroite.fun/*` : télécharger la liste publique des comptes à bloquer. Aucun autre site n'est concerné et aucune donnée n'est envoyée. |
 
 **Code distant** (Remote code) : **Non**, je n'utilise pas de code distant.
-La liste téléchargée est lue comme du texte, et les données en sont extraites avec `JSON.parse` : elle n'est jamais exécutée.
+La liste téléchargée est lue comme du texte, et les données en sont extraites avec `JSON.parse` : elle n'est jamais exécutée. Les comptes validés de `/api/accounts` sont du JSON, lu de la même façon.
 
 **Utilisation des données** : ne cocher **aucune** catégorie de données collectées, puis cocher les 3 attestations :
 - je ne vends ni ne transfère les données des utilisateurs à des tiers, hors cas autorisés ;
