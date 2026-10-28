@@ -21,6 +21,7 @@ async function getState() {
     running: false,
     status: 'Prêt.',
     accounts: [],
+    listDate: '', // jour du dernier téléchargement de la liste
     results: {},
     daily: { date: '', count: 0 },
     settings: DEFAULT_SETTINGS,
@@ -160,6 +161,17 @@ async function tick() {
     if (!state.running) return;
     const { settings, results } = state;
 
+    // Une campagne qui dure plusieurs jours ne travaille jamais sur une liste de plus d'un jour.
+    if (state.listDate !== today()) {
+      try {
+        state.accounts = await fetchAccounts();
+      } catch (e) {
+        // Site injoignable : on garde l'ancienne copie et on réessaiera demain.
+        console.warn('Blockfacho : liste non rechargée', e);
+      }
+      await chrome.storage.local.set({ accounts: state.accounts, listDate: today() });
+    }
+
     const daily = state.daily.date === today() ? state.daily : { date: today(), count: 0 };
     if (daily.count >= settings.dailyLimit) {
       await chrome.storage.local.set({
@@ -230,7 +242,7 @@ async function start() {
   await chrome.storage.local.set({ status: 'Récupération de la liste…' });
   try {
     const accounts = await fetchAccounts();
-    await chrome.storage.local.set({ accounts, running: true, consecutiveErrors: 0 });
+    await chrome.storage.local.set({ accounts, listDate: today(), running: true, consecutiveErrors: 0 });
   } catch (e) {
     await chrome.storage.local.set({ running: false, status: `Erreur : ${e.message}` });
     return;

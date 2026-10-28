@@ -44,7 +44,8 @@ Chaque compte bloqué fait tomber une pierre de la citadelle. Objectif : l'abatt
 ## Fonctionnement et vie privée
 
 - La liste des comptes est téléchargée depuis `onbloquelextremedroite.fun` (liste vérifiée du site),
-  avec l'accord de son auteur.
+  avec l'accord de son auteur. Elle est rechargée à chaque lancement, puis une fois par jour
+  pendant une campagne : les comptes ajoutés sur le site sont pris en compte dès le lendemain.
 - Tout le reste se passe **dans ton navigateur** : aucune donnée n'est envoyée ailleurs,
   ni sur un serveur, ni au site de la liste.
 - La progression est enregistrée localement dans Chrome.
