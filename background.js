@@ -52,6 +52,9 @@ async function fetchApproved() {
 
 async function fetchAccounts() {
   const res = await fetch(LIST_URL, { cache: 'no-store' });
+  if (res.status === 410) {
+    throw new Error('le site a retiré la liste en téléchargement. Voir avec son auteur.');
+  }
   if (!res.ok) throw new Error(`Liste inaccessible (HTTP ${res.status})`);
   const text = await res.text();
   // Le fichier a la forme `const accounts = [ ... ];`
