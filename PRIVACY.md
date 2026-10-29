@@ -10,9 +10,8 @@ Tout se passe dans ton navigateur.
 ## Ce que fait l'extension
 
 - Elle télécharge la liste publique des comptes depuis
-  `https://onbloquelextremedroite.fun/accounts.js` (liste de base) et
-  `https://onbloquelextremedroite.fun/api/accounts` (comptes validés depuis).
-  Ces requêtes ne contiennent aucune information te concernant.
+  `https://www.onbloquelextremedroite.fr/blacklist-catalog.json`.
+  Cette requête ne contient aucune information te concernant.
 - Elle ouvre les profils de cette liste sur `x.com`, dans un onglet de ton navigateur,
   et clique sur « Bloquer » avec ta session X déjà ouverte.
 

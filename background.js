@@ -2,8 +2,7 @@
 // Les ticks sont planifiés avec chrome.alarms, car un service worker MV3 peut
 // être arrêté à tout moment : tout l'état vit donc dans chrome.storage.local.
 
-const LIST_URL = 'https://onbloquelextremedroite.fun/accounts.js';
-const API_URL = 'https://onbloquelextremedroite.fun/api/accounts';
+const LIST_URL = 'https://www.onbloquelextremedroite.fr/blacklist-catalog.json';
 const DEFAULT_SETTINGS = { dailyLimit: 20, speed: 'prudent' };
 // Délai aléatoire entre deux blocages (en secondes), pour ne pas avoir un rythme de robot.
 // Plus c'est rapide, plus X risque de restreindre le compte.
@@ -35,75 +34,26 @@ function today() {
   return new Date().toLocaleDateString('sv'); // AAAA-MM-JJ, heure locale
 }
 
-// Extrait le pseudo d'un lien de profil X (https://x.com/pseudo), sinon null.
-function handleFromUrl(url) {
-  const m = String(url ?? '').match(/^https:\/\/(?:www\.)?(?:x|twitter)\.com\/@?([A-Za-z0-9_]{1,15})\/?(?:[?#].*)?$/);
-  return m ? m[1] : null;
-}
-
-// Comptes ajoutés, modifiés ou retirés par la modération du site depuis la liste de base.
-async function fetchApproved() {
-  const res = await fetch(API_URL, { cache: 'no-store' });
-  if (!res.ok) throw new Error(`API inaccessible (HTTP ${res.status})`);
-  const data = await res.json();
-  if (!Array.isArray(data?.entries)) throw new Error('Format d’API inattendu.');
-  return data.entries;
-}
-
+// Le catalogue du site couvre plusieurs réseaux : on ne garde que les comptes X.
 async function fetchAccounts() {
   const res = await fetch(LIST_URL, { cache: 'no-store' });
-  if (res.status === 410) {
+  if (res.status === 404 || res.status === 410) {
     throw new Error('le site a retiré la liste en téléchargement. Voir avec son auteur.');
   }
   if (!res.ok) throw new Error(`Liste inaccessible (HTTP ${res.status})`);
-  const text = await res.text();
-  // Le fichier a la forme `const accounts = [ ... ];`
-  const match = text.match(/const accounts = (\[[\s\S]*?\n\]);?/);
-  if (!match) throw new Error('Format de liste inattendu : le site a peut-être changé.');
-  // Même clé que le site : l'id s'il existe, sinon le pseudo.
-  const list = JSON.parse(match[1]).map((a) => ({
-    key: String(a.id || a.handle || '').toLowerCase(),
-    handle: a.handle,
-    name: a.name,
-    category: a.category,
-  }));
+  const data = await res.json();
+  if (!Array.isArray(data?.accounts)) throw new Error('Format de liste inattendu : le site a peut-être changé.');
 
-  // Le site complète la liste de base avec les comptes validés de son API.
-  // Si elle ne répond pas, on se contente de la liste de base.
-  try {
-    const entries = await fetchApproved();
-    const removed = new Set(
-      entries.filter((e) => e.type === 'removal').map((e) => String(e.target_id).toLowerCase()),
-    );
-    for (const e of entries) {
-      if (e.platform !== 'x') continue;
-      const handle = handleFromUrl(e.profile_url);
-      if (!handle) continue;
-      if (e.type === 'new') {
-        list.push({ key: String(e.id).toLowerCase(), handle, name: e.name, category: e.category });
-      } else if (e.type === 'update') {
-        const target = list.find((a) => a.key === String(e.target_id).toLowerCase());
-        if (target) target.handle = handle;
-      }
-    }
-    for (let i = list.length - 1; i >= 0; i--) {
-      if (removed.has(list[i].key)) list.splice(i, 1);
-    }
-  } catch (e) {
-    console.warn('Blockfacho : comptes validés non récupérés', e);
-  }
-
-  // Un même compte X peut figurer plusieurs fois (base + ajout) : on n'en garde qu'un.
   const seen = new Set();
-  return list
+  return data.accounts
     .filter((a) => {
-      if (!a.handle) return false;
+      if (a.platform !== 'x' || !/^[A-Za-z0-9_]{1,15}$/.test(a.handle ?? '')) return false;
       const h = a.handle.toLowerCase();
       if (seen.has(h)) return false;
       seen.add(h);
       return true;
     })
-    .map(({ handle, name, category }) => ({ handle, name, category }));
+    .map((a) => ({ handle: a.handle, name: a.name, category: a.cat }));
 }
 
 function randomDelay(settings) {

@@ -9,7 +9,7 @@ Ce dossier `store/` sert uniquement à la publication : il n'est pas inclus dans
 **Nom** (repris du manifest) : Blockfacho auto
 
 **Résumé** (repris du manifest, 132 caractères max) :
-Bloque automatiquement sur X les comptes de la liste onbloquelextremedroite.fun, à un rythme modéré.
+Bloque automatiquement sur X les comptes de la liste onbloquelextremedroite.fr, à un rythme modéré.
 
 **Catégorie** : Réseaux sociaux et communication
 
@@ -18,7 +18,7 @@ Bloque automatiquement sur X les comptes de la liste onbloquelextremedroite.fun,
 **Description détaillée** :
 
 ```
-Blockfacho auto bloque pour toi, sur X (Twitter), les comptes de la liste vérifiée du site onbloquelextremedroite.fun, avec l'accord de son auteur.
+Blockfacho auto bloque pour toi, sur X (Twitter), les comptes X de la liste publique du site onbloquelextremedroite.fr.
 
 Comment ça marche
 • Clique sur « Lancer l'assaut » : l'extension récupère la liste du site.
@@ -57,7 +57,7 @@ Les règles de X encadrent l'automatisation. Même à un rythme lent, X peut res
 
 **Objectif unique** (Single purpose) :
 ```
-Bloquer automatiquement sur X (Twitter), à la demande de l'utilisateur et à un rythme modéré, les comptes de la liste publique et vérifiée du site onbloquelextremedroite.fun. L'utilisateur lance et met en pause les blocages depuis le popup, et règle une limite quotidienne.
+Bloquer automatiquement sur X (Twitter), à la demande de l'utilisateur et à un rythme modéré, les comptes de la liste publique du site onbloquelextremedroite.fr. L'utilisateur lance et met en pause les blocages depuis le popup, et règle une limite quotidienne.
 ```
 
 **Justification des autorisations** :
@@ -67,10 +67,10 @@ Bloquer automatiquement sur X (Twitter), à la demande de l'utilisateur et à un
 | `storage` | Enregistrer localement la liste des comptes, le résultat pour chaque compte, le compteur du jour et la limite quotidienne choisie. |
 | `alarms` | Espacer les blocages selon la cadence choisie par l'utilisateur et reprendre automatiquement le lendemain quand la limite quotidienne est atteinte. |
 | `scripting` | Exécuter, uniquement sur la page du profil X à bloquer, le script inclus dans l'extension qui clique sur « Bloquer » puis sur « Confirmer », comme le ferait l'utilisateur. |
-| Accès à l'hôte | `https://x.com/*` : ouvrir dans un onglet en arrière-plan le profil X de chaque compte de la liste et y exécuter le script de blocage, avec la session X déjà ouverte de l'utilisateur. `https://onbloquelextremedroite.fun/*` : télécharger la liste publique des comptes à bloquer. Aucun autre site n'est concerné et aucune donnée n'est envoyée. |
+| Accès à l'hôte | `https://x.com/*` : ouvrir dans un onglet en arrière-plan le profil X de chaque compte de la liste et y exécuter le script de blocage, avec la session X déjà ouverte de l'utilisateur. `https://www.onbloquelextremedroite.fr/*` : télécharger la liste publique des comptes à bloquer. Aucun autre site n'est concerné et aucune donnée n'est envoyée. |
 
 **Code distant** (Remote code) : **Non**, je n'utilise pas de code distant.
-La liste téléchargée est lue comme du texte, et les données en sont extraites avec `JSON.parse` : elle n'est jamais exécutée. Les comptes validés de `/api/accounts` sont du JSON, lu de la même façon.
+La liste téléchargée est un fichier JSON, lu comme des données : elle n'est jamais exécutée.
 
 **Utilisation des données** : ne cocher **aucune** catégorie de données collectées, puis cocher les 3 attestations :
 - je ne vends ni ne transfère les données des utilisateurs à des tiers, hors cas autorisés ;

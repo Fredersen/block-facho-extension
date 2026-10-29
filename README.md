@@ -1,7 +1,7 @@
 # Blockfacho auto 🐢🏰
 
 Extension Chrome qui bloque automatiquement sur X (Twitter) les comptes de la liste
-[onbloquelextremedroite.fun](https://onbloquelextremedroite.fun/site), à un rythme lent
+[onbloquelextremedroite.fr](https://www.onbloquelextremedroite.fr/liste) (site de MISE AU POING), à un rythme lent
 pour ne pas se faire repérer comme un robot.
 
 Chaque compte bloqué fait tomber une pierre de la citadelle. Objectif : l'abattre.
@@ -43,9 +43,9 @@ Chaque compte bloqué fait tomber une pierre de la citadelle. Objectif : l'abatt
 
 ## Fonctionnement et vie privée
 
-- La liste des comptes est téléchargée depuis `onbloquelextremedroite.fun`, avec l'accord de son
-  auteur : la liste de base (`accounts.js`) plus les comptes validés depuis par la modération
-  du site (`/api/accounts`). Seuls les profils X sont gardés. Elle est rechargée à chaque lancement, puis une fois par jour
+- La liste des comptes est téléchargée depuis le catalogue public du site
+  (`onbloquelextremedroite.fr/blacklist-catalog.json`). Le site couvre surtout Instagram :
+  seuls ses profils X sont gardés. Elle est rechargée à chaque lancement, puis une fois par jour
   pendant une campagne : les comptes ajoutés sur le site sont pris en compte dès le lendemain.
 - Tout le reste se passe **dans ton navigateur** : aucune donnée n'est envoyée ailleurs,
   ni sur un serveur, ni au site de la liste.
